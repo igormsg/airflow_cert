@@ -1,0 +1,146 @@
+unsuported operand list list... tem que usar cross downstream, nao da pra usar shift operator com 2 listas
+
+extra field no connextor eh json
+
+same input, same output... 1 task, 1 operator
+
+schedule interval = none, nunca vai rodar automatico
+
+nao use datetime.now no start date
+
+start date sempre em utc
+
+task pode ter outros starts dates, mas nao eh boa pratica
+
+trigger: start date + interval
+
+2 parametros tem que ter: start date (obrigatorio), schedule interval (24h se nao tiver)
+mesmo id de dag, vai ver so o mais recente e nao vai ver os antigos
+
+docker ps
+docker -it is /bin/bash
+airflow db init
+airflow db upgrade
+airflow reset - nao use em producao
+airflow webserver
+airflow scheduler
+airflow celery worker - seta maquina como worker
+airflow dags pause/unpause
+airflow dags trigger -e
+airflow dags list
+airflow tasks list example_dag
+airflow tasks test dag_id taks_id execution date - importante, roda toda vez que adicionar uma task na dag, antes de jogar pra producao
+airflow dags backfill -s start-date -e end-date --reset_dagruns => rerun past dag runs
+
+
+graph view = check dependencies
+tree view = history dag runs
+delete dag = nao deleta o arquivo, apenas da UI
+
+last run = last execution date
+
+extra: install set dependencies needed for a feature, install providers(kubernetes extra)
+providers: some operators or hooks (postgres provider)
+
+First, make sure you've Python 3.6+ installed on your computer.
+
+airflow 2.0, nao roda em python 2.7
+
+web server espera 30 segundos para ver a pasta dags, ja o scheduler eh 5 minutos
+
+task instance = dag + task + timestamp
+
+operators: action, transfer, sensor
+
+dag nao tem loop
+
+web server nao interaje diretamente com schedule e com executor, apenas com metadata
+
+not a streaming and not data processing
+
+dynamic, scalable, interactive, extensible
+
+nao usar cron job
+
+open source plataform to author, schedule and monitor workflows
+
+instalar airflow em todos nós dos workers e as dependencias tb
+
+nos nós de workers, tem que digitar airflow celery worker
+
+tres componentes:
+web server, postgres/metadata, schedule + queue (parte do executor ou externa)
+
+executor = how
+worker = where
+local executor = paralelismo
+
+local dag:
+max_active_runs = 6 (run)
+concurrency = 1 (task em todas run da dag)
+
+globais:
+max_active_runs_per_dag = 16 (run)
+
+dag concurrency = 16 (tasks)
+
+parallelim = 32 ENTIRE instance (tasks)
+
+sql lite alchemy padrao
+
+default eh sequential executor, sem paralelismo
+
+multiple tasks = kubernets executor
+
+xcom = stored no db, sqllite=2gb, postgres=1gb, mysql=64kb
+downstream = depois
+upstream = antes
+
+extra: aditional information for connection, nao fica escondido, ta encriptado no db, mas nao na user interface
+
+presto connection, tem que instalar provider
+
+one operator, one task
+
+schedule interval none nao faz nada
+
+nao use datetime.now no start date
+
+se tiver um start date no passado de um dag que nunca foi rodado, ele considera o start date a hora atual
+
+nao colocar start date na task
+
+dag run 1: execution date 10 am e roda/start date 10:10
+dag run 2: execution date 10:10 e roda 10:20
+
+astro dev stop / astro dev start
+
+start data + intervalo
+
+de
+
+1x por dia por default
+
+dags id sempre unicos
+
+airflow db init
+
+airflow db upgrade
+
+airflow db reset
+
+airflow webserver
+
+airflow scheduler
+
+airflow celery worker
+
+airflow dags pause/unpause
+
+airflow dags trigger -e
+
+airflow dags list
+
+airflow tasks test <dag> <tasks> <start date>
+
+airflow dags backfill -s <start_date> -e <end_date> --reset_dagruns <nome dag>
